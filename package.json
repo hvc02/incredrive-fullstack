@@ -1,5 +1,6 @@
 {
   "name": "incredrive",
+  "type": "module",
   "version": "1.0.0",
   "description": "incredrive fullstack web application",
   "main": "server.js",
@@ -16,8 +17,13 @@
     "nodemon": "^1.14.6"
   },
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "bcryptjs": "^2.4.3",
     "concurrently": "^3.5.1",
     "cors": "^2.8.5",
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "is-empty": "^1.2.0",
+    "mongoose": "^5.13.3",
+    "validator": "^13.6.0"
   }
 }
