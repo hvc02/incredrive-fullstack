@@ -2,6 +2,9 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
+
 const keys = require("./config/keys");
 const authRouter = require("./routes/authentication");
 
@@ -37,6 +40,24 @@ const db = mongoose.connection;
 db.on("error", () => console.log("Connection error"));
 db.once("open", () =>
   console.log("Database connection established successfully")
+);
+
+// Session config
+const sessionStore = new MongoStore({
+  mongoUrl: keys.mongoURI,
+  collection: "sessions",
+});
+
+app.use(
+  session({
+    secret: keys.secretOrKey,
+    resave: false,
+    saveUninitialized: true,
+    store: sessionStore,
+    cookie: {
+      maxAge: 24 * 60 * 60 * 365,
+    },
+  })
 );
 
 // Routes
