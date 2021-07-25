@@ -4,9 +4,11 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
+const passport = require("passport");
 
 const keys = require("./config/keys");
 const authRouter = require("./routes/authentication");
+require("./config/passport");
 
 // App config
 const app = express();
@@ -59,6 +61,10 @@ app.use(
     },
   })
 );
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Routes
 app.use("/api/auth", authRouter);
