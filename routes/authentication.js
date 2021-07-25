@@ -1,8 +1,14 @@
-import express from "express";
-import bcrypt from "bcryptjs";
-import registerValidation from "../validation/register.js";
-import loginValidation from "../validation/login.js";
-import User from "../models/users.js";
+// import express from "express";
+// import bcrypt from "bcryptjs";
+// import registerValidation from "../validation/register.js";
+// import loginValidation from "../validation/login.js";
+// import User from "../models/users.js";
+const User = require('../models/users')
+const express = require('express')
+const bcrypt = require('bcrypt')
+const registerValidation = require('../validation/register')
+const loginValidation = require('../validation/login')
+
 
 const router = express.Router();
 
@@ -61,4 +67,4 @@ router.post("/register", async (req, res) => {
 //   });
 // });
 
-export default router;
+module.exports = router

@@ -1,5 +1,5 @@
-export default  {
+module.exports =  {
   mongoURI:
-    "mongodb+srv://harivansh:Asdfghjkl1@tv-application-v0wtc.mongodb.net/test?retryWrites=true&w=majority",
+    "mongodb+srv://harivansh:Asdfghjkl1@cluster0.v0wtc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
   secretOrKey: "secret",
 };

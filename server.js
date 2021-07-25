@@ -1,9 +1,15 @@
 // Imports
-import express from "express";
-import mongoose from "mongoose";
-import cors from "cors";
-import keys from "./config/keys.js";
-import authRouter from "./routes/authentication.js";
+// import express from "express";
+// import mongoose from "mongoose";
+// import cors from "cors";
+// import keys from "./config/keys.js";
+// import authRouter from "./routes/authentication.js";
+const express = require('express')
+const cors = require('cors')
+const mongoose = require('mongoose')
+const keys = require('./config/keys').mongoURI
+const authRouter = require('./routes/authentication')
+
 
 // App config
 const app = express();
@@ -31,7 +37,7 @@ app.use(cors({ credentials: true }));
 
 // Database connection
 mongoose
-  .connect(keys.mongoURI, {
+  .connect(mongoURI, {
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
