@@ -1,15 +1,9 @@
 // Imports
-// import express from "express";
-// import mongoose from "mongoose";
-// import cors from "cors";
-// import keys from "./config/keys.js";
-// import authRouter from "./routes/authentication.js";
-const express = require('express')
-const cors = require('cors')
-const mongoose = require('mongoose')
-const keys = require('./config/keys').mongoURI
-const authRouter = require('./routes/authentication')
-
+const express = require("express");
+const cors = require("cors");
+const mongoose = require("mongoose");
+const keys = require("./config/keys");
+const authRouter = require("./routes/authentication");
 
 // App config
 const app = express();
@@ -29,15 +23,9 @@ app.use(cors({ credentials: true }));
 //   res.json(customers);
 // });
 
-// Connect to MongoDB
-// mongoose
-//   .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
-//   .then(() => console.log("MongoDB successfully connected"))
-//   .catch((err) => console.log(err));
-
 // Database connection
 mongoose
-  .connect(mongoURI, {
+  .connect(keys.mongoURI, {
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,

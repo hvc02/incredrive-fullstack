@@ -1,4 +1,4 @@
-import Joi from "@hapi/joi";
+const Joi = require("@hapi/joi");
 
 // Login validation
 const loginValidation = (data) => {
@@ -10,4 +10,4 @@ const loginValidation = (data) => {
   return schema.validate(data);
 };
 
-export default loginValidation;
+module.exports = loginValidation;

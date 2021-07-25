@@ -1,6 +1,5 @@
 {
   "name": "incredrive",
-  "type": "module",
   "version": "1.0.0",
   "description": "incredrive fullstack web application",
   "main": "server.js",

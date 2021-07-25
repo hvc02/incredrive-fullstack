@@ -1,4 +1,4 @@
-import Joi from "@hapi/joi";
+const Joi = require("@hapi/joi");
 
 // Register validation
 const registerValidation = (data) => {
@@ -16,4 +16,4 @@ const registerValidation = (data) => {
   return schema.validate(data);
 };
 
-export default registerValidation;
+module.exports = registerValidation;
