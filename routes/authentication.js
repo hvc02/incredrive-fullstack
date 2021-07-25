@@ -1,8 +1,10 @@
-const User = require("../models/users");
 const express = require("express");
-const bcrypt = require("bcryptjs");
+const passport = require("passport");
+
+const User = require("../models/users");
 const registerValidation = require("../validation/register");
 const loginValidation = require("../validation/login");
+const { generatePasswordHash } = require("../utils/password");
 
 const router = express.Router();
 
@@ -13,13 +15,12 @@ router.post("/register", async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   // Check if the user has an account
-  // const emailExist = await User.findOne({ email: req.body.email });
-  // if (emailExist)
-  //   return res.status(400).send("E-mail already exist. Try logging in.");
+  const emailExist = await User.findOne({ email: req.body.email });
+  if (emailExist)
+    return res.status(400).send("E-mail already exist. Try logging in.");
 
   // Hash password
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(req.body.password, salt);
+  const hashedPassword = await generatePasswordHash(req.body.password);
 
   // Create a new user
   const user = new User({
@@ -30,35 +31,39 @@ router.post("/register", async (req, res) => {
   });
 
   // For testing purposes only
-  res.status(201).send(user);
+  // res.status(201).send(user);
 
-  // user
-  //   .save()
-  //   .then((data) => res.status(201).send(data))
-  //   .catch((err) => res.status(400).send(err));
+  user
+    .save()
+    .then((data) => res.status(201).send(data))
+    .catch((err) => res.status(400).send(err));
 });
 
 // Login
-// router.post("/login", async (req, res) => {
-//   // Validate data before logging in
-//   const { error } = loginValidation(req.body);
-//   if (error) return res.status(400).send(error.details[0].message);
+router.post("/login", (req, res) => {
+  passport.authenticate("local", async (err, result, info) => {
+    if (err) return res.status(400).send("Server error");
 
-//   // Check if the user does not have an account
-//   const user = await User.findOne({ email: req.body.email });
-//   if (!user) return res.status(400).send("Wrong e-mail or password.");
+    // Validate data before logging in
+    const { error: validationError } = loginValidation(req.body);
+    if (validationError)
+      return res.status(400).send(validationError.details[0].message);
 
-//   // Checking if password is correct
-//   const validPassword = await bcrypt.compare(req.body.password, user.password);
-//   if (!validPassword) return res.status(400).send("Wrong e-mail or password.");
+    // Check if the user does not have an account
+    if (!result.user) return res.status(404).send("Email not found");
 
-//   res.status(200).send({
-//     user: {
-//       id: user._id,
-//       name: user.firstName,
-//     },
-//     message: "Logged In",
-//   });
-// });
+    // Checking if password is correct
+    if (!result.valid) return res.status(400).send("Wrong e-mail or password.");
+
+    res.status(200).send({
+      user: {
+        id: result.user._id,
+        name: result.user.name,
+      },
+      message: "Logged In",
+    });
+  })(req, res);
+});
+
 
 module.exports = router;
