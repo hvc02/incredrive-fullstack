@@ -55,12 +55,17 @@ router.post("/login", (req, res) => {
     // Checking if password is correct
     if (!result.valid) return res.status(400).send("Wrong e-mail or password.");
 
-    res.status(200).send({
-      user: {
-        id: result.user._id,
-        name: result.user.name,
-      },
-      message: "Logged In",
+    req.logIn(result.user, function (err) {
+      if (err) return res.status(400).send("Server error");
+      return res.status(200).send({
+        isAuth: req.isAuthenticated(),
+        user: {
+          id: result.user._id,
+          name: result.user.name,
+        },
+        message: "Logged In",
+        session: req.session,
+      });
     });
   })(req, res);
 });
