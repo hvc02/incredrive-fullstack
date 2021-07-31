@@ -70,5 +70,12 @@ router.post("/login", (req, res) => {
   })(req, res);
 });
 
+// Logout
+router.get("/logout", (req, res) => {
+  req.logout();
+  res.status(200).send({
+    message: "Logged out",
+  });
+});
 
 module.exports = router;
