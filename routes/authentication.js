@@ -70,6 +70,15 @@ router.post("/login", (req, res) => {
   })(req, res);
 });
 
+// Protected Route
+router.get("/protected", (req, res) => {
+  if (req.isAuthenticated())
+    res.status(200).send({
+      message: "Secret Information",
+    });
+  else res.status(401).send({ message: "Unauthorized" });
+});
+
 // Logout
 router.get("/logout", (req, res) => {
   req.logout();
